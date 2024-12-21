@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/security_restaurant
+    username: postgres
+    password: atai
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+server:
+
+  port: 8080
+  error:
+    include-message: always
+
+
+app:
+  security:
+    jwt:
+      secret_key: java15
+      expiration: 604800
+logging:
+  level:
+    org:springframework.security: DEBUG
