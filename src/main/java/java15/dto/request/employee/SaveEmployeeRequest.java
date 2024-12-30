@@ -2,11 +2,13 @@ package java15.dto.request.employee;
 
 import jakarta.validation.constraints.*;
 import java15.enums.Role;
+import java15.valid.ValidRole;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
+@ValidRole
 public class SaveEmployeeRequest {
 
     @NotNull(message = "ID ресторана не может быть пустым")
@@ -45,5 +47,5 @@ public class SaveEmployeeRequest {
     private Role role;
 
     @NotNull(message = "Опыт не может быть пустым ")
-    private Integer experience;
+    private int experience;
 }

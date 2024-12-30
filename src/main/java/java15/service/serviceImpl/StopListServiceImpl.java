@@ -30,8 +30,7 @@ public class StopListServiceImpl implements StopListService {
         if (menuItem.getId() == null) {
             throw new BadRequestException("Invalid menu item id");
         }
-//        System.out.println("menuItems = " + menuItem);
-//        log.info("menuItems = " + menuItem);
+
         StopList stopList = new StopList();
         stopList.setDate(LocalDate.now());
         stopList.setReason(stopMessage);

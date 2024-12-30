@@ -6,5 +6,4 @@ import org.springframework.stereotype.Service;
 @Service
 public interface StopListService {
     StopListResponse save(Long menuItemId, String stopMessage);
-//    StopListResponse save(Long menuItemId, String stopMessage);
 }

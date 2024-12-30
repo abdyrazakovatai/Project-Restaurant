@@ -34,4 +34,6 @@ public interface EmployeeService {
     PaginationResponse<GetAllResponse> getAllPagination(int pageNumber, int pageSize);
 
     GetAllResponse findById(Long id);
+
+
 }

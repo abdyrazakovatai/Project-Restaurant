@@ -3,6 +3,7 @@ package java15.api;
 import jakarta.validation.Valid;
 import java15.dto.request.menuItem.MenuItemRequest;
 import java15.dto.response.auth.SimpleResponse;
+import java15.dto.response.employee.GlobalFindResponse;
 import java15.dto.response.menuItem.GetMenuItemResponse;
 import java15.dto.response.menuItem.MenuItemResponse;
 import java15.service.MenuItemService;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/menuItem")
@@ -27,6 +30,17 @@ public class MenuItemAPI {
     @PutMapping("/updateMenItem{id}")
     public SimpleResponse updateMenuItem (@Valid @PathVariable Long id, MenuItemRequest menuItemRequest){
         return menuItemService.update(id,menuItemRequest);
+    }
+
+    @Secured({"EMPLOYEE","ADMIN","WAITER"})
+    @GetMapping("/globalFind")
+    public GlobalFindResponse globalFind (@RequestParam String keyword){
+        return menuItemService.globalFind(keyword);
+    }
+
+    @GetMapping("/sortByPrice")
+    public List<GetMenuItemResponse> sortByPrice(@RequestParam String keyword){
+        return menuItemService.sortByPrice(keyword);
     }
 
     @GetMapping("/getMenuItem{id}")

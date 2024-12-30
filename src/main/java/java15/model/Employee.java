@@ -29,7 +29,7 @@ public class Employee implements UserDetails {
     private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private int age;
+//    private int age;
     private int experience;
 
     @ManyToOne(fetch = FetchType.EAGER)

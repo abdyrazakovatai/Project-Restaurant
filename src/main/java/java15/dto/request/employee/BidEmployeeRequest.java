@@ -1,6 +1,8 @@
 package java15.dto.request.employee;
 
 import jakarta.validation.constraints.*;
+import java15.enums.Role;
+import java15.valid.ValidRole;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,6 +10,7 @@ import java.time.LocalDate;
 
 @Data
 @Builder
+@ValidRole
 public class BidEmployeeRequest {
     @NotBlank(message = "Имя не может быть пустым")
     @Size(min = 4,max = 30,message = "Имя должно быть от 4 до 30 символов")
@@ -37,5 +40,9 @@ public class BidEmployeeRequest {
     @NotBlank(message = "Номер не должен быть пустым")
     private String phoneNumber;
 
+    @NotNull(message = "Поле роль не может быть пустым ")
+    private Role role;
+
+    @Min(value = 1,message = "Опыт должен быть не менее 1 года")
     private int experience;
 }

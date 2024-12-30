@@ -14,6 +14,7 @@ import java15.enums.Role;
 import java15.exception.BadRequestException;
 import java15.exception.NotFoundException;
 import java15.model.Employee;
+import java15.model.MenuItem;
 import java15.model.Restaurant;
 import java15.repo.EmployeeRepository;
 import java15.repo.RestaurantRepository;
@@ -213,7 +214,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employee.setRestaurant(newRestaurant);
 
-//        employee.setRestaurant(employee.getRestaurant());
         employee.setFirstName(updateEmployeeRequest.getFirstName());
         employee.setLastName(updateEmployeeRequest.getLastName());
         employee.setEmail(updateEmployeeRequest.getEmail());
@@ -230,7 +230,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public PaginationResponse<GetAllResponse> getAllPagination(int pageNumber, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber , pageSize);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Employee> employeesPage = employeeRepo.findAll(pageable);
 
         List<GetAllResponse> responseList = new ArrayList<>();

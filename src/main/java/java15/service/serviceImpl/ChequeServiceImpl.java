@@ -6,7 +6,6 @@ import java15.dto.response.auth.SimpleResponse;
 import java15.dto.response.cheque.AddChequeResponse;
 import java15.dto.response.cheque.GetCheckResponse;
 import java15.dto.response.menuItem.MenuItemWithChequeResponse;
-import java15.enums.Role;
 import java15.exception.BadRequestException;
 import java15.model.Cheque;
 import java15.model.Employee;
@@ -40,9 +39,6 @@ public class ChequeServiceImpl implements ChequeService {
     @Transactional
     public AddChequeResponse addCheque(AddChequeRequest addChequeRequest) {
         Employee employee = employeeRepository.getEmployeeById(addChequeRequest.getEmployeeId());
-//        if (employee.getRole() != Role.ADMIN && employee.getRole() != Role.WAITER) {
-//            throw new BadRequestException("You role no ADMIN or WAITER");
-//        }
 
         List<MenuItem> menuItems = addChequeRequest.getMenuItemsId().stream().map(menuItemRepository::getMenuItemById).toList();
 

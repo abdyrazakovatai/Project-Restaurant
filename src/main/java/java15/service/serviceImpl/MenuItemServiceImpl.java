@@ -2,6 +2,7 @@ package java15.service.serviceImpl;
 
 import java15.dto.request.menuItem.MenuItemRequest;
 import java15.dto.response.auth.SimpleResponse;
+import java15.dto.response.employee.GlobalFindResponse;
 import java15.dto.response.menuItem.GetMenuItemResponse;
 import java15.dto.response.menuItem.MenuItemResponse;
 import java15.model.MenuItem;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -91,5 +93,41 @@ public class MenuItemServiceImpl implements MenuItemService {
                 .httpStatus(HttpStatus.OK)
                 .message("MenuItem updated successfully")
                 .build();
+    }
+
+    @Override
+    public GlobalFindResponse globalFind(String keyword) {
+        List<MenuItem> menuItems = menuItemRepository.globalSearch(keyword);
+        List<GetMenuItemResponse> menuItemResponses = menuItems.stream()
+                .map(menuItem -> GetMenuItemResponse.builder()
+                        .id(menuItem.getId())
+                        .name(menuItem.getName())
+                        .price(menuItem.getPrice())
+                        .isVegetarian(menuItem.isVegetarian())
+                        .build()
+                )
+                .toList();
+
+        return GlobalFindResponse.builder()
+                .menuItems(menuItemResponses)
+                .build();
+    }
+
+    @Override
+    public List<GetMenuItemResponse> sortByPrice(String keyword) {
+        List<MenuItem> menuItems;
+        if ("desc".equalsIgnoreCase(keyword)) {
+            menuItems = menuItemRepository.findAllByOrderByPriceDesc();
+        } else {
+            menuItems = menuItemRepository.findAllByOrderByPriceAsc();
+        }
+        return menuItems.stream()
+                .map(menuItem -> GetMenuItemResponse.builder()
+                        .id(menuItem.getId())
+                        .name(menuItem.getName())
+                        .price(menuItem.getPrice())
+                        .isVegetarian(menuItem.isVegetarian())
+                        .build())
+                .toList();
     }
 }
