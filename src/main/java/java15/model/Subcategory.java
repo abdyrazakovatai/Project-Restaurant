@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Subcategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +23,6 @@ public class Subcategory {
     @ManyToOne
     private Category category;
 
-    @OneToMany(mappedBy = "subcategory")
+    @OneToMany(mappedBy = "subcategory",orphanRemoval = true,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<MenuItem> menuItems;
 }

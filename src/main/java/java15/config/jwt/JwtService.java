@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import java15.dto.response.JwtTokenResponse;
+import java15.dto.response.auth.JwtTokenResponse;
 import java15.model.Employee;
 import java15.repo.EmployeeRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,11 @@
 package java15.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import java15.enums.RestType;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -23,13 +25,14 @@ public class Restaurant {
     private String location;
     @Enumerated(EnumType.STRING)
     private RestType restType;
+    @Max(value = 15)
     private int numberOfEmployees;
-    private int service;
+    private BigDecimal service;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "restaurant")
     private List<Employee> employees;
 
-    @OneToMany(mappedBy = "restaurant",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "restaurant", fetch = FetchType.EAGER)
     private List<MenuItem> menuItems;
 }

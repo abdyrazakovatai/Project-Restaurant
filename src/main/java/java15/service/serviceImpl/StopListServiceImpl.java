@@ -1,7 +1,7 @@
 package java15.service.serviceImpl;
 
 import jakarta.transaction.Transactional;
-import java15.dto.response.StopListResponse;
+import java15.dto.response.stopList.StopListResponse;
 import java15.exception.BadRequestException;
 import java15.model.MenuItem;
 import java15.model.StopList;
@@ -30,16 +30,14 @@ public class StopListServiceImpl implements StopListService {
         if (menuItem.getId() == null) {
             throw new BadRequestException("Invalid menu item id");
         }
-        System.out.println("menuItem = " + menuItem);
-        log.info("menuItem = " + menuItem);
+//        System.out.println("menuItems = " + menuItem);
+//        log.info("menuItems = " + menuItem);
         StopList stopList = new StopList();
         stopList.setDate(LocalDate.now());
         stopList.setReason(stopMessage);
         stopList.setMenuItem(menuItem);
 
         stopListRepository.save(stopList);
-        log.info("stopList = " + stopList);
-
 
         return StopListResponse.builder()
                 .stopListId(stopList.getId())

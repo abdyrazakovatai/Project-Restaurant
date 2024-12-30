@@ -32,9 +32,10 @@ public class MenuItem {
     private Restaurant restaurant;
 
     @ManyToOne
+//            (cascade = CascadeType.ALL)
     private Subcategory subcategory;
 
     @ToString.Exclude
-    @ManyToMany(cascade = CascadeType.ALL)//mappedBy "menuItem"
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Cheque> cheques;
 }

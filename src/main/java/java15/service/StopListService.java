@@ -1,6 +1,6 @@
 package java15.service;
 
-import java15.dto.response.StopListResponse;
+import java15.dto.response.stopList.StopListResponse;
 import org.springframework.stereotype.Service;
 
 @Service

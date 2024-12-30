@@ -1,15 +1,15 @@
 package java15.api;
 
-import java15.dto.request.AcceptOrRejectRequest;
-import java15.dto.request.BidEmployeeRequest;
-import java15.dto.request.SaveEmployeeRequest;
-import java15.dto.response.BidAcceptOrRejectResponse;
-import java15.dto.response.BidEmployeeResponse;
-import java15.dto.response.GetAllBidEmployeeResponse;
-import java15.dto.response.SaveEmployeeResponse;
+import jakarta.validation.Valid;
+import java15.dto.request.employee.AcceptOrRejectRequest;
+import java15.dto.request.employee.BidEmployeeRequest;
+import java15.dto.request.employee.SaveEmployeeRequest;
+import java15.dto.response.auth.SimpleResponse;
+import java15.dto.response.employee.*;
 import java15.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,49 +17,60 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/employee")
 @RequiredArgsConstructor
-
+@Validated
 public class EmployeeAPI {
-    private final EmployeeService employeeService;
 
-    //save from Admin. EMPLOYEE  // ROLE CHER WAITER restaurant id
+    private final EmployeeService employeeService;
 
     @Secured("ADMIN")
     @PostMapping("/saveEmployee")
-    public SaveEmployeeResponse saveEmployee(@RequestBody SaveEmployeeRequest registerRequest) {
+    public SaveEmployeeResponse saveEmployee(@Valid @RequestBody SaveEmployeeRequest registerRequest) {
         return employeeService.saveEmployee(registerRequest);
     }
 
-    //bid from employee// EMPLOYEE ROLE
+    @PutMapping("/updateEmployee{id}")
+    public SimpleResponse updateEmployee (@PathVariable Long id, SaveEmployeeRequest updateEmployeeRequest){
+        return employeeService.update(id,updateEmployeeRequest);
+    }
 
     @PostMapping("/bidEmployee")
-    public BidEmployeeResponse bidEmployee(@RequestBody BidEmployeeRequest bidEmployeeRequest){
+    public BidEmployeeResponse bidEmployee(@Valid @RequestBody BidEmployeeRequest bidEmployeeRequest){
         return employeeService.bidEmployee(bidEmployeeRequest);
     }
 
-    // accept or reject / employeeId / ACCEPT / restaurant id  or REJECT/ delete employee(zaiavka tashtagan)restaurants
-
+    @Secured("ADMIN")
     @PostMapping("/acceptOrReject")
-    public BidAcceptOrRejectResponse acceptOrReject (@RequestBody AcceptOrRejectRequest acceptOrRejectRequest){
-        return employeeService.bidAcceptOrReject(acceptOrRejectRequest.getEmployeeId(),acceptOrRejectRequest.getRestaurantId(),acceptOrRejectRequest.getBid());
+    public BidAcceptOrRejectResponse acceptOrReject (@Valid @RequestBody AcceptOrRejectRequest acceptOrRejectRequest){
+        return employeeService.bidAcceptOrReject(acceptOrRejectRequest.getEmployeeId(),acceptOrRejectRequest.getRestaurantId(),acceptOrRejectRequest.getBid(),acceptOrRejectRequest.getRole());
     }
 
-    // find by id
-
-    //get all employee(bid)
+    @Secured("ADMIN")
     @GetMapping("/getAllEmployee")
     public List<GetAllBidEmployeeResponse> getAll (){
         return employeeService.findAll();
     }
 
+    @GetMapping("/getById{id}")
+    public GetAllResponse getAllResponse (@PathVariable Long id){
+        return employeeService.findById(id);
+    }
 
-//    @Secured("ADMIN")
-//    @PostMapping("/assignChef")
-//    public AssignResponse assignChef (@RequestBody AssignRequest assignRequest) {
-//        return employeeService.assignChef(assignRequest.getEmployeeId(), assignRequest.getRestaurantId());
-//    }
-//    @Secured("ADMIN")
-//    @PostMapping("/assignWaiter")
-//    public AssignResponse assignWaiter (@RequestBody AssignRequest assignRequest) {
-//        return employeeService.assignWaiter(assignRequest.getEmployeeId(), assignRequest.getRestaurantId());
-//    }
+    @Secured("ADMIN")
+    @GetMapping("/getAll")
+    public List<GetAllResponse> getAlls (){
+        return employeeService.getAll();
+    }
+
+    @GetMapping("/getAllPagination")
+    public PaginationResponse<GetAllResponse> getAllPagination (
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize){
+        return employeeService.getAllPagination(pageNumber,pageSize);
+    }
+
+    @Secured("ADMIN")
+    @DeleteMapping("/deleteEmployee{id}")
+    public SimpleResponse deleteEmployee (@PathVariable Long id){
+        return employeeService.delete(id);
+    }
 }

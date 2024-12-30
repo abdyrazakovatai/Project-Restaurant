@@ -17,4 +17,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     }
 
     boolean existsByName(String name);
+
+    Restaurant getAllById(Long id);
 }

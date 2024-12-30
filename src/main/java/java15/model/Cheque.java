@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
+
 public class Cheque {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,11 @@ public class Cheque {
     private BigDecimal priceAverage;
     private LocalDate createdAt;
 
-    @ManyToOne(cascade = CascadeType.ALL) // persist
+    @ToString.Exclude
+    @ManyToOne(cascade = CascadeType.DETACH)
     private Employee employee;
 
-    @ManyToMany(mappedBy = "cheques", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "cheques", cascade = CascadeType.ALL)
     private List<MenuItem> menuItems;
 
 }

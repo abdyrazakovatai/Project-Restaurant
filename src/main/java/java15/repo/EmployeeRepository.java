@@ -41,4 +41,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query("select e from Employee e where e.role = 'EMPLOYEE' ")
     List<Employee> getAllByRole();
+
+    @Query("select e from Employee e ")
+    List<Employee> getAll();
 }
